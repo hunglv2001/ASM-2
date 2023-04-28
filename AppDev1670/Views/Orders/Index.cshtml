@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusOrder)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusOrder)
+            </td>
+            <td>
+               
+                <a asp-controller="OrderDetails" asp-action="Index" asp-route-id="@item.Id">Details</a> | 
+                @if(item.StatusOrder == AppDev1670.Enums.OrderStatus.Unconfirmed){
+                        <a asp-action="Edit" asp-controller="OrderDetails" asp-route-id="@item.Id">Edit | </a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

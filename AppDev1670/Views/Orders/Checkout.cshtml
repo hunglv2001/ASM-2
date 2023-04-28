@@ -1,0 +1,72 @@
+﻿
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model AppDev1670.ViewModels.CheckOut
+@{
+    ViewData["Title"] = "Purchase";
+}
+
+<h1>Check Out</h1>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Name Book
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.orderDetails)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.NameBook)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+<div class="col-md-5" style="float: right">
+
+    <div class="rounded d-flex flex-column p-2" style="background-color: #f8f9fa; ">
+        <div class="p-2 me-3">
+            <h4>Order Recap</h4>
+        </div>
+        <div class="p-2 d-flex">
+            <div class="col-8">Name: </div>
+            <div class="ms-auto">@Model.Name</div>
+
+        </div>
+        <div class="p-2 d-flex">
+            <div class="col-8">Address: </div>
+            <div class="ms-auto">@Model.Address</div>
+        </div>
+        <div class="p-2 d-flex">
+            <div class="col-8">Number Phone</div>
+            <div class="ms-auto">0912256419</div>
+        </div>
+
+        <div class="border-top px-2 mx-2"></div>
+        <div class="p-2 d-flex pt-3">
+            <div class="col-8"><b>Total Order</b></div>
+            <div class="ms-auto"><b class="text-success">@Model.TotalPrice VND</b></div>
+        </div>
+
+        <a asp-action="Purchase" asp-controller="Orders" class="btn btn-info">Purchase</a>
+    </div>
+</div>

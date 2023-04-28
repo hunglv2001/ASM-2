@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model AppDev1670.DTOs.Responses.BookView
+@{
+    ViewData["Title"] = "DetailProduct";
+}
+<div>
+    <a asp-action="Index">Back to List</a>
+    <h1>Detail Product</h1>
+
+</div>
+    <link rel="stylesheet" href="~/css/DetailBook.css" />
+
+
+<div class="super_container">
+ 
+    <div class="single_product">
+        <div class="container-fluid" style=" background-color: #fff; padding: 11px;">
+            <div class="row">
+                <div class="col-lg-6 order-lg-2 order-1">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                                <div class="carousel-item active"   style=" align-content: center;display: grid;">
+                                    <img class="d-block w-100" src= "@Model.ImageBook" alt="First slide"  
+                                    style= " border-radius: 10px !important; display: block;  height: auto;">
+                                </div>
+                                
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                        </a>
+                    </div>   
+                </div>
+                <div class="col-lg-6 order-3">
+                    <div class="product_description">
+                  
+                        <div class="product_name"><h1 style="margin-top:10px;color: darkblue;">@Model.NameBook</h1></div>
+                        <div> <span class="product_price" style="font-size: larger;" >Price: @Model.PriceBook</span> VND </div>
+                        <hr class="singleline">
+                        <div>
+                            <h6 class="product_info">Information Book </h6>
+                            <p class="product_info">@Model.DescriptionBook<p> </div>
+                        
+                        <hr class="singleline">
+                        <div class="order_info d-flex flex-row">
+                        </div>
+                        <div class="row">
+                           
+                            <div class="col-xs-6"> 
+                                <a class="btn btn-primary shop-button" style="height: 40px" asp-controller="Orders" asp-action="Create" asp-route-id=@Model.Id>Add To Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

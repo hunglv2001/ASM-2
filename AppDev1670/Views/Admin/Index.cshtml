@@ -1,0 +1,60 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model AppDev1670.ViewModels.AdminViewModel
+
+@{
+    int RowNo = 0;
+}
+
+<h1>Admin page</h1>
+
+<a asp-action="ShowCategoriesInProgress" asp-controller="Admin" class="btn btn-primary">Verify Category Request</a>
+<br />
+<h2>All Users</h2>
+
+@{
+    var message = TempData["Message"];
+}
+
+@if (message != null)
+{
+    <h4 class="alert alert-success" role="alert"> <strong>@TempData["Message"]</strong></h4>
+}
+
+
+<form method="POST">
+    <select asp-for="@Model.Input.Role" class="form-control"
+        asp-items="@Model.RoleSelectList" class="form-select form-select-sm" aria-label=".form-select-sm example">        
+    </select>
+    <br />
+    <button type="submit" class="btn btn-primary">Select</button>
+</form>
+
+
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">User Email</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">Action</th>
+    </tr> 
+  </thead>
+  <tbody>
+    @foreach (var item in Model.Users){
+      <tr>
+        <th scope="row">@{RowNo++;} @RowNo</th>
+        <td>@item.Email</td>
+        <td>@item.FullName</td>
+        <td>@item.Address</td>
+        <td><a class="btn btn-success hoverChangePassword" asp-action="ChangePassword" asp-controller="Admin" asp-route-id=@item.Id>Change Password</a></td>
+      </tr>
+  }
+  </tbody>
+</table>

@@ -1,0 +1,147 @@
+﻿
+@model AppDev1670.ViewModels.Cart
+
+@using AppDev1670.Enums
+@using AppDev1670.ViewModels
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+                var message = TempData["BookState"];
+            }
+            
+            
+            @if (message != null)
+            {
+                <h4 class="alert alert-danger" role="alert"> <strong>@TempData["BookState"]</strong></h4>
+            }
+<nav>
+    @* <ol class="breadcrumb"> *@
+    @*     <li class="breadcrumb-item"><a asp-controller="Customer" asp-action="Index" style="text-decoration: NONE;">Home</a></li> *@
+    @*     <li class="breadcrumb-item"><a asp-controller="Orders" asp-action="Index" style="text-decoration: NONE;">List Orders</a></li> *@
+    @*     <li class="breadcrumb-item active">Cart</li> *@
+    @* </ol> *@
+    
+    <ol class="breadcrumb">
+        <li>
+            <a asp-controller="Orders" asp-action="Index" style="text-decoration: NONE;">
+                <i class="fa-solid fa-truck"></i>
+                List Orders
+            </a>
+        </li>
+    </ol>
+   
+</nav>
+
+@if (Model.orderDetails.Count != 0)
+{
+    <section class="h-100" style="background-color: aliceblue;border-radius: 10px;">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+                    
+                    </div>
+                    <form asp-controller="OrderDetails" asp-action="Edit" method="post">
+
+
+                        @for (int i = 0; i < Model.orderDetails.Count; i++)
+                        {
+                            <input asp-for="@Model.orderDetails[i].Id" type="hidden" value="@Model.orderDetails[i].Id" id="@Model.orderDetails[i].Id">
+                            <input asp-for="@Model.orderDetails[i].OrderId" type="hidden" value="@Model.orderDetails[i].OrderId">
+                            <div class="card rounded-3 mb-4">
+                                <div class="card-body p-4">
+                                    <div class="row d-flex justify-content-between align-items-center">
+
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <p class="lead fw-normal mb-2">@Model.orderDetails[i].Book.NameBook</p>
+                                            <input asp-for="@Model.orderDetails[i].BookId" type="hidden" value="@Model.orderDetails[i].BookId">
+
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                            @if (Model.orderDetails[i].Order.StatusOrder == OrderStatus.Unconfirmed)
+                                            {
+                                                <input asp-for="@Model.orderDetails[i].Quantity" style="width:80px" value="@Model.orderDetails[i].Quantity" min="1" max="100"
+                                           id="quantity @Model.orderDetails[i].Id"
+                                           onchange="refresh(document.getElementById('@Model.orderDetails[i].Id').value,
+                                    document.getElementById('quantity @Model.orderDetails[i].Id').value,
+                                    document.getElementById('price @Model.orderDetails[i].Id').value)" />
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => Model.orderDetails[i].Quantity)
+                                            }
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 ">
+                                            <input asp-for="@Model.orderDetails[i].Book.Price" type="hidden" value="@Model.orderDetails[i].Book.Price" id="price @Model.orderDetails[i].Id">
+                                            <h5 class="mb-0" id="refreshPrice @Model.orderDetails[i].Id">@Model.orderDetails[i].Price</h5>
+                                        </div>
+                                        <div class="col-md-2 col-lg-2 col-x2-2 ">
+                                            @if (@Model.orderDetails[i].Order.StatusOrder == OrderStatus.Unconfirmed)
+                                            {
+                                             
+                                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.orderDetails[i].Id">Delete</a>    
+                                              
+                                                
+                                            }
+                                            <a class="btn btn-success " asp-controller="Customer" asp-action="Detail" asp-route-id=@Model.orderDetails[i].BookId>Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        }
+
+
+
+
+                        <div class="card">
+                            <div class="card-body" style="display:flex;align-items: baseline;">
+                                @if(@Model.orderDetails[0].Order.StatusOrder == OrderStatus.Unconfirmed){
+                                <button type="submit" class="btn btn-secondary btn-block btn-lg">Get Order</button>
+                                }                               
+                                <p style="    padding-left: 100px;">Total: @Model.totalPrice </p>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Cart</h5>
+                    </div>
+                    <div class="card-body cart">
+                        <div class="col-sm-12 empty-cart-cls text-center">
+                            <img src="http://hsnbazar.com/images/empty-cart.png" width="330" height="330" class="img-fluid mb-4 mr-3">
+                            <h5><strong>Your Cart is Empty</strong></h5>
+                            <a asp-action="Index" asp-controller="Customer" class="btn btn-primary cart-btn-transform m-3" data-abc="true">Continue shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function refresh(idOrderDetail, quantity, price) {
+        var a = "refreshPrice " + idOrderDetail;
+        document.getElementById(a).innerHTML = quantity * price;
+    }
+
+
+
+</script>

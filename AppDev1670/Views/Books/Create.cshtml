@@ -1,0 +1,110 @@
+﻿
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model AppDev1670.ViewModels.BookCategoriesViewModel
+
+<script src="https://kit.fontawesome.com/a775ea28da.js" crossorigin="anonymous"></script>
+
+<style>
+    .body-container {
+        display: flex;
+    }
+
+    .side-bar {
+        width: 20%;
+        margin: 0 20px 0 10px;
+    }
+
+    .fa-chart-line {
+        margin-right: 10px;
+    }
+
+    .fa-book {
+        margin-right: 10px;
+    }
+
+    .fa-list {
+        margin-right: 10px;
+    }
+
+    .fa-clipboard-user {
+        margin-right: 10px;
+    }
+
+    .display-container {
+        width: 80%;
+    }
+
+    .btn-wrapper {
+        margin: 10px 0 10px 0;
+    }
+
+    #book-management {
+        color: black;
+        text-decoration: none;
+    }
+
+    #category-request {
+        color: black;
+        text-decoration: none;
+    }
+
+    #record-management {
+        color: black;
+        text-decoration: none;
+    }
+</style>
+
+<div class="body-container">
+    <div class="side-bar">
+        <ul class="list-group">
+            <li class="list-group-item"><i class="fa-solid fa-book"></i><a id="book-management" asp-controller="Books" asp-action="Index">Book Management</a></li>
+            <li class="list-group-item"><i class="fa-solid fa-list"></i><a id="category-request" asp-controller="Categories" asp-action="Index">Category Request</a></li>
+            <li class="list-group-item"><i class="fa-solid fa-clipboard-user"></i><a id="record-management" asp-controller="Records" asp-action="Index">Record Management</a></li>
+        </ul>
+    </div>
+
+    <div class="display-container">
+        <form enctype="multipart/form-data" asp-controller="Books" asp-action="Create" method="post">
+            <div class="form-group">
+                <label>Name of Book</label>
+                <input asp-for="Book.NameBook" class="form-control" placeholder="Name Of Book" />
+                <span asp-validation-for="Book.NameBook" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                <input asp-for="Book.QuantityBook" class="form-control" type="number" />
+                <span asp-validation-for="Book.QuantityBook" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input asp-for="Book.Price" class="form-control" placeholder="Price" type="number" />
+                <span asp-validation-for="Book.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Information of Book</label>
+                <textarea asp-for="Book.InformationBook" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select asp-for="Book.CategoryId"
+                        asp-items="@(new SelectList(Model.Categories, "Id", "NameCategory"))"
+                        class="form-control">
+                </select>
+            </div>
+            <div class="form-group">
+                <dl>
+                     <span asp-validation-for="@Model.FormFile" class="text-danger"></span>
+                    <dt>
+                        <label asp-for="@Model.FormFile"></label>
+                    </dt>
+                    <dd>
+                        <input asp-for="@Model.FormFile" type="file">
+                    </dd>
+                </dl>
+            </div>
+            <div class="btn-wrapper">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>

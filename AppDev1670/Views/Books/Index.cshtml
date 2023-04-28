@@ -1,0 +1,123 @@
+﻿
+@model IEnumerable<Book>
+
+<script src="https://kit.fontawesome.com/a775ea28da.js" crossorigin="anonymous"></script>
+
+<style>
+    .body-container {
+        display: flex;
+    }
+
+    .side-bar {
+        width: 20%;
+        margin: 0 20px 0 10px;
+    }
+
+    .fa-chart-line {
+        margin-right: 10px;
+    }
+
+    .fa-book {
+        margin-right: 10px;
+    }
+
+    .fa-list {
+        margin-right: 10px;
+    }
+
+    .fa-clipboard-user {
+        margin-right: 10px;
+    }
+
+    .display-container {
+        width: 80%;
+    }
+
+    .form-wrapper {
+        display: flex;
+        margin: 10px 0 10px 0;
+    }
+
+    #search-box {
+        display: flex;
+    }
+
+    #search-input {
+        width: 640px;
+    }
+
+    #btn-search {
+        margin: 0 10px 0 10px;
+    }
+
+    #book-management {
+        color: black;
+        text-decoration: none;
+    }
+
+    #category-request {
+        color: black;
+        text-decoration: none;
+    }
+
+    #record-management {
+        color: black;
+        text-decoration: none;
+    }
+    
+   
+</style>
+
+<div class="body-container">
+    <div class="side-bar">
+        <ul class="list-group">
+            <li class="list-group-item"><i class="fa-solid fa-book"></i><a id="book-management" asp-controller="Books" asp-action="Index">Book Management</a></li>
+            <li class="list-group-item"><i class="fa-solid fa-list"></i><a id="category-request" asp-controller="Categories" asp-action="Index">Category Request</a></li>
+            <li class="list-group-item"><i class="fa-solid fa-users-gear"></i> <a id="record-management" asp-controller="Records" asp-action="GetAllCustomers">List Users</a></li>
+        </ul>
+    </div>
+
+    <div class="display-container">
+        <div class="form-wrapper">
+            <form id="search-box" asp-controller="Books" asp-action="Index" method="get">
+                <input id="search-input" name="SearchString" class="form-control" placeholder="Enter Book You Want To Search" />
+                <input type="submit" value="Search" id="btn-search" class="btn btn-secondary" />
+            </form>
+            
+            
+            <a id="btn-create" class="btn btn-primary" asp-controller="Books" asp-action="Create">Create Book</a>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th scope="col">#</th>
+                    <th scope="col">Name of Book</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Information</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.NameBook</td>
+                        <td>@item.QuantityBook</td>
+                        <td>@item.Price VNĐ</td>
+                        <td>@item.InformationBook</td>
+                        <td>@item.CreatedAt</td>
+                        <td>
+                            <a asp-controller="Books" asp-action="Details" asp-route-id=@item.Id class="btn btn-primary btn-sm">Details</a>
+                            <a asp-controller="Books" asp-action="Edit" asp-route-id=@item.Id class="btn btn-secondary btn-sm">Edit</a>
+                            <a asp-controller="Books" asp-action="Delete" asp-route-id=@item.Id class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
